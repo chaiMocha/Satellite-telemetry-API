@@ -17,7 +17,7 @@ A production-grade REST API built to simulate the continuous ingestion of high-t
 
 ## 🛠️ Local Development Setup
 1. Clone the repository.
-2. Create a virtual environment and `pip install -r requirements.txt` *(Note: you will need to generate a requirements.txt file for this!)*
+2. Create a virtual environment and `pip install -r requirements.txt`
 3. Create a `.env` file with `DATABASE_URL` and `API_KEY` variables.
 4. Run `uvicorn main:app --reload` to start the local server.
 
