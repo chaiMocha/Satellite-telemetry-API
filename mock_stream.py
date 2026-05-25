@@ -3,7 +3,10 @@ import time
 import random
 from datetime import datetime, timezone
 
-API_URL = "http://localhost:8000/telemetry/"
+# API_URL = "http://18.217.160.135/telemetry/{SAT-Alpha-1}/latest"
+API_URL = "http://18.217.160.135/telemetry/"
+# API_URL = "http://localhost:8000/telemetry/"
+
 
 # Initial state for a small constellation
 satellites = {
