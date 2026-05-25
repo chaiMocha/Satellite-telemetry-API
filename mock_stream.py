@@ -2,8 +2,15 @@ import requests
 import time
 import random
 from datetime import datetime, timezone
+import os
+from dotenv import load_dotenv
 
-API_URL = "http://18.217.160.135/telemetry/"
+load_dotenv()
+API_URL = os.getenv("DATABASE_API_URL")
+
+HEADERS = {
+    "X-API-Key": os.getenv("API_KEY")
+}
 
 # Initial state for a small constellation
 satellites = {
@@ -40,7 +47,7 @@ try:
             payload = generate_telemetry(sat_id, state)
             
             try:
-                response = requests.post(API_URL, json=payload)
+                response = requests.post(API_URL, json=payload, headers=HEADERS)
                 if response.status_code == 201:
                     print(f"[{payload['timestamp']}] Transmitted {sat_id} | Bat: {payload['battery_level']}% | Alt: {payload['altitude']}km")
                 else:
