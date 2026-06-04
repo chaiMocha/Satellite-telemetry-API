@@ -2,10 +2,11 @@ from sqlalchemy import Column, Integer, String, Float, DateTime
 from database import Base
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-# SQLAlchemy Model (Database)
 class TelemetryDB(Base):
     __tablename__ = "telemetry"
+    
     id = Column(Integer, primary_key=True, index=True)
     satellite_id = Column(String, index=True)
     timestamp = Column(DateTime)
@@ -14,7 +15,6 @@ class TelemetryDB(Base):
     longitude = Column(Float)
     altitude = Column(Float)
 
-# Pydantic Schemas (API Validation)
 class TelemetryCreate(BaseModel):
     satellite_id: str
     timestamp: datetime
@@ -25,5 +25,16 @@ class TelemetryCreate(BaseModel):
 
 class TelemetryResponse(TelemetryCreate):
     id: int
+    status: Optional[str] = None
+
+    def model_post_init(self, __context) -> None:
+        if self.battery_level is not None:
+            if self.battery_level < 15:
+                self.status = "CRITICAL"
+            elif self.battery_level < 40:
+                self.status = "WARNING"
+            else:
+                self.status = "NOMINAL"
+
     class Config:
         from_attributes = True
